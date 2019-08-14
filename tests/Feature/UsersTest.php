@@ -2,12 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Client;
 use App\Role;
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UsersTest extends TestCase
 {
@@ -23,12 +21,12 @@ class UsersTest extends TestCase
     public function a_user_requires_an_email()
     {
         /** @var User $user */
-        $user = factory(User::class)->create(['role_id' => Role::ROLE_ADMIN]);
+        $user = factory(User::class)->create(['role_id' => Role::ROLE_CLIENT]);
         $this->actingAs($user);
 
         $userNew = factory(User::class, ['email' => null])->make();
 
-        $response = $this->post('/create-user', $userNew->toArray());
+        $response = $this->post('/dashboard', $userNew->toArray());
 
         $response->assertSessionHasErrors('email');
     }
@@ -37,12 +35,12 @@ class UsersTest extends TestCase
     public function a_user_requires_a_password()
     {
         /** @var User $user */
-        $user = factory(User::class)->create(['role_id' => Role::ROLE_ADMIN]);
+        $user = factory(User::class)->create(['role_id' => Role::ROLE_CLIENT]);
         $this->actingAs($user);
 
         $userNew = factory(User::class, ['password' => null])->make();
 
-        $response = $this->post('/create-user', $userNew->toArray());
+        $response = $this->post('/dashboard', $userNew->toArray());
 
         $response->assertSessionHasErrors('password');
     }

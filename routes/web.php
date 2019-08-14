@@ -18,18 +18,9 @@ Route::get('/', function () {
 // Authentication Routes...
 Auth::routes();
 
-
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('/clients', 'ClientController'); //->only(['show', 'update']);
-//Route::resource('/create-user', 'UserController')->only(['create', 'store']);
-Route::get('/create-user', 'UserController@create');
-Route::post('/create-user', 'UserController@store');
+Route::resource('/clients', 'ClientController');
+Route::get('/dashboard', 'DashboardController@create');
+Route::post('/dashboard', 'DashboardController@store');
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

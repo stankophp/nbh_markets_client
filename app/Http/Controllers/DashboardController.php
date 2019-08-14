@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 
-class UserController extends Controller
+class DashboardController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -38,13 +38,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        if (Gate::allows('create-users')) {
-            $roles = Role::all();
-            return view('users.create', compact('roles'));
-        }
-
-        return Redirect::route('home');
-
+        $roles = Role::all();
+        return view('dashboard.create', compact('roles'));
     }
 
     /**
@@ -55,10 +50,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        if (!Gate::allows('create-users')) {
-            return Redirect::route('home');
-        }
-
         $this->validate($request, [
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8',
@@ -70,7 +61,7 @@ class UserController extends Controller
             'password' => Hash::make($request->get('password')),
         ]);
 
-        return redirect('/create-user');
+        return redirect('/dashboard');
     }
 
     /**
